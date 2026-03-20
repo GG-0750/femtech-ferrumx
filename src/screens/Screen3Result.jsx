@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { savePatient } from '../utils/supabase'
+import { supabase } from '../utils/supabase'
 
 const themes = {
   red:   { bg: '#2A0A0E', border: '#E94560', label: 'HIGH RISK', color: '#E94560' },
@@ -12,7 +13,9 @@ export default function Screen3Result({ result, patientData, onNext }) {
   const [picme, setPicme] = useState('')
 
     async function handleAlert() {
-        await savePatient({
+    const { data, error } = await supabase
+        .from('patients')
+        .insert([{
         name: patientData.name,
         village: patientData.village,
         blood_loss: patientData.blood,
@@ -21,7 +24,9 @@ export default function Screen3Result({ result, patientData, onNext }) {
         risk_score: result.score,
         action: result.action,
         picme_number: picme,
-        })
+        }])
+        .select()
+    if (data && data[0]) onNext(data[0].id)
     }
 
   const whatsappMsg = encodeURIComponent(
