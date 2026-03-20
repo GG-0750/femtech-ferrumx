@@ -36,6 +36,7 @@ export default function Dashboard() {
         <div key={p.id} className="p-4 rounded-xl mb-3" style={{backgroundColor: '#1A1D27', border: `1px solid ${p.acknowledged ? '#0F9B8E' : '#E94560'}`}}>
           <p className="font-bold text-white">{p.name} — {p.village}</p>
           <p className="text-xs mt-1" style={{color: '#8892A4'}}>Score: {p.risk_score} | {p.action}</p>
+          {p.picme_number && <p className="text-xs mt-1" style={{color: '#8892A4'}}>PICME: {p.picme_number}</p>}
           <p className="text-xs" style={{color: '#8892A4'}}>{new Date(p.created_at).toLocaleString()}</p>
           {!p.acknowledged
             ? <button onClick={() => acknowledge(p.id)} className="mt-2 px-4 py-1 rounded-full text-xs font-bold" style={{backgroundColor: '#E94560', color: '#fff'}}>Acknowledge</button>
